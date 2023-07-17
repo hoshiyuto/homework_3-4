@@ -1,2 +1,27 @@
-<h1>Books#show</h1>
-<p>Find me in app/views/books/show.html.erb</p>
+<div class = "main">
+
+  <div class = "main-sidebar">
+    <%= render '/common/userinfo&newbook', book: @book, user: @user %>
+  </div>
+
+  <div class = "main-content">
+    <h1>Book detail</h1>
+    <div class = "content">
+      <div class = "image&name">
+        <%= link_to user_path(@book.user_id) do %>
+          <%= image_tag @book.get_image %>
+          <%= @book.user.name %>
+        <% end %>
+      </div>
+      <div>
+      <p><%= @book.title %></p>
+      <p><%= @book.body %></p>
+      <% if @book.user == current_user %>
+        <%= link_to "Edit", edit_book_path(@book) %>
+        <%= link_to "Destroy", book_path(@book), method: :delete %>
+      <% end %>
+      </div>
+    </div>
+  </div>
+
+</div>
