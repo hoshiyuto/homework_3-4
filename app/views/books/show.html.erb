@@ -1,8 +1,16 @@
 <%= flash[:notice] %>
+<% if @book.errors.any? %>
+  <%= @book.errors.count %>error prohibited this obj from being saved:
+  <ul>
+    <% @book.errors.full_messages.each do |message| %>
+    <li><%= message %>
+    <% end %>
+  </ul>
+<% end %>
 <div class = "container">
   <div class = "row">
     <div class = "col-lg-4">
-      <%= render '/common/userinfo&newbook', book: @book, user: @user%>
+      <%= render '/common/userinfo&newbook', book: @book2, user: @book.user%>
     </div>
 
     <div class = "col-lg-8">
