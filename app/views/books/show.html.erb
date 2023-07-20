@@ -9,32 +9,32 @@
 <% end %>
 <div class = "container">
   <div class = "row">
-    <div class = "col-lg-4">
+    <div class = "col-md-3">
       <%= render '/common/userinfo&newbook', book: @book2, user: @book.user%>
     </div>
 
-    <div class = "col-lg-8">
+    <div class = "col-md-8 offset-md-1">
       <h1>Book detail</h1>
       <div class = "row">
-        <div class = "col-lg-2">
+        <div class = "col-md-3">
           <%= link_to user_path(@book.user_id) do %>
           <%= image_tag @book.get_image %>
           <%= @book.user.name %>
           <% end %>
         </div>
-        <div class = "col-lg-1">
+        <div class = "col-md-1">
           <%= link_to book_path(@book.id) do %>
           <p><%= @book.title %></p>
           <% end %>
         </div>
-        <div class = "col-lg-1">
+        <div class = "col-md-1">
          <p><%= @book.body %></p>
         </div>
         <% if @book.user == current_user %>
-        <div class = "col-lg-2">
+        <div class = "col-md-2">
           <%= link_to "Edit", edit_book_path(@book), class:"btn btn-lg btn-block btn-info mt-4 " %>
         </div>
-        <div class = "col-lg-2">
+        <div class = "col-md-2">
           <%= link_to "Destroy", book_path(@book), method: :delete, class:"btn btn-lg btn-block btn-info mt-4 " %>
         </div>
         <% end %>
