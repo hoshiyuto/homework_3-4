@@ -15,30 +15,75 @@
 
     <div class = "col-md-8 offset-md-1">
       <h1>Book detail</h1>
+      <table class = "table table-striped">
+        <tr>
+          <th>
+            <%= link_to user_path(@book.user_id) do %>
+            <%= image_tag @book.get_image %>
+            <%= @book.user.name %>
+            <% end %>
+          </th>
+          <th>
+            <%= link_to book_path(@book.id) do %>
+            <%= @book.title %>
+            <% end %>
+          </th>
+          <th>
+            <%= @book.body %>
+          </th>
+          <th>
+            <% if @book.favorited_by?(current_user) %>
+              <%= link_to book_favorite_path(@book), method: :delete do %>
+                ♥<%= @book.favorites.count %>
+              <% end %>
+            <% else %>
+              <%= link_to book_favorite_path(@book), method: :post do %>
+                ♥<%= @book.favorites.count %>
+              <% end %>
+            <% end %>
+          </th>
+          <th>
+            コメント数:<%= @book.book_comments.count %>
+          </th>
+          <% if @book.user == current_user %>
+          <th>
+            <%= link_to "Edit", edit_book_path(@book), class:"btn btn-lg btn-block btn-info mt-4 " %>
+          </th>
+          <th>
+            <%= link_to "Destroy", book_path(@book), method: :delete, class:"btn btn-lg btn-block btn-info mt-4 " %>
+          </th>
+          <% end %>
+        </tr>
+      </table>
+
       <div class = "row">
-        <div class = "col-md-3">
-          <%= link_to user_path(@book.user_id) do %>
-          <%= image_tag @book.get_image %>
-          <%= @book.user.name %>
+      <% @book.book_comments.each do |book_comment| %>
+        <div class = "col-md-2">
+          <%= link_to user_path(book_comment.user_id) do %>
+          <p><%= image_tag book_comment.user.get_profile_image(100,100) %></p>
+          <%= book_comment.user.name %>
           <% end %>
         </div>
-        <div class = "col-md-1">
-          <%= link_to book_path(@book.id) do %>
-          <p><%= @book.title %></p>
+        <div class = "col-md-2">
+          <%= book_comment.comment %>
+        </div>
+        <div class = "col-md-2">
+          <% if book_comment.user == current_user %>
+          <%= link_to "Destroy", book_book_comment_path(book_comment.book, book_comment), method: :delete, class: "btn btn-lg btn-block btn-info mt-4" %>
           <% end %>
         </div>
-        <div class = "col-md-1">
-         <p><%= @book.body %></p>
-        </div>
-        <% if @book.user == current_user %>
-        <div class = "col-md-2">
-          <%= link_to "Edit", edit_book_path(@book), class:"btn btn-lg btn-block btn-info mt-4 " %>
-        </div>
-        <div class = "col-md-2">
-          <%= link_to "Destroy", book_path(@book), method: :delete, class:"btn btn-lg btn-block btn-info mt-4 " %>
-        </div>
+      <% end %>
+      </div>
+
+      <div class = "row">
+        <%= form_with model: [@book, @book_comment] do |f| %>
+        <%= f.text_area :comment, rows: '5' %>
+        <%= f.submit "送信" %>
         <% end %>
       </div>
+
+
+
     </div>
 
   </div>
